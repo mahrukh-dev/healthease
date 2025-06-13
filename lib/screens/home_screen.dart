@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:healthease/screens/appointment_booking_screen.dart';
+import 'package:healthease/screens/appointment_history_screen.dart';
 import 'package:healthease/theme/app_colors.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -69,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: (){
                 Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (_) => AppointmentBookingScreen())
+                    MaterialPageRoute(builder: (_) => AppointmentHistoryScreen())
                 );
               },
             ),
