@@ -19,40 +19,52 @@ class AppointmentConfirmationScreen extends StatelessWidget {
     await prefs.setStringList('appointments', existingAppointments);
 
     showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-          title: Text("Success"),
-          content: Text("Appointment saved successfully."),
-          actions: [
-            TextButton(
-                onPressed: (){
-                  Navigator.of(context).popUntil((route)=> route.isFirst);
-                },
-                child: Text("OK"),
-            ),
-          ],
-        ),
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text("Success"),
+        content: Text("Appointment saved successfully."),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).popUntil((route) => route.isFirst);
+            },
+            child: Text("OK"),
+          ),
+        ],
+      ),
     );
   }
 
-  Widget _infoTile(String label, String value){
+  Widget _infoTile(IconData icon, String label, String value) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 6),
+      padding: EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "$label: ",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-            ),
-          ),
+          Icon(icon, color: AppColors.primaryColor, size: 24),
+          SizedBox(width: 10),
           Expanded(
-              child: Text(
-                value,
-                style: TextStyle(fontSize: 16),
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  label,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                    color: Colors.grey,
+                  ),
+                ),
+                SizedBox(height: 4),
+                Text(
+                  value,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black87,
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -68,27 +80,49 @@ class AppointmentConfirmationScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _infoTile("Full Name", appointment.fullName),
-            _infoTile("Age", appointment.age.toString()),
-            _infoTile("Gender", appointment.gender),
-            _infoTile("Speciality", appointment.speciality),
-            _infoTile("Date", appointment.appointmentDate),
-            _infoTile("Symptoms", appointment.symptoms.isEmpty ? "N/A" : appointment.symptoms),
-            Spacer(),
-            Center(
-              child: ElevatedButton(
-                  onPressed: () => _saveAppointment(context),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.secondaryColor,
-                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+        child: Card(
+          elevation: 4,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          child: Padding(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              children: [
+                Text(
+                  "Appointment Summary",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.primaryColor,
                   ),
-                  child: Text("Save Appointment"),
-              ),
+                ),
+                Divider(height: 30, thickness: 1),
+                _infoTile(Icons.person, "Full Name", appointment.fullName),
+                _infoTile(Icons.cake, "Age", appointment.age.toString()),
+                _infoTile(Icons.wc, "Gender", appointment.gender),
+                _infoTile(Icons.medical_services, "Speciality", appointment.speciality),
+                _infoTile(Icons.calendar_today, "Date", appointment.appointmentDate),
+                _infoTile(Icons.description, "Symptoms", appointment.symptoms.isEmpty ? "N/A" : appointment.symptoms),
+                Spacer(),
+                Center(
+                  child: ElevatedButton.icon(
+                    onPressed: () => _saveAppointment(context),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.secondaryColor,
+                      padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    icon: Icon(Icons.save),
+                    label: Text(
+                      "Save Appointment",
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
